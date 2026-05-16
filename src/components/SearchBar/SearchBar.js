@@ -12,6 +12,7 @@ class SearchBar extends React.Component{
     this.handleTermChange = this.handleTermChange.bind(this);
     this.handleLocationChange = this.handleLocationChange.bind(this);
     this.handleSortByChange = this.handleSortByChange.bind(this);
+    this.handleSortByKeyDown = this.handleSortByKeyDown.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
 
     this.sortByOptions = {
@@ -53,11 +54,28 @@ class SearchBar extends React.Component{
     this.props.searchYelp(this.state.term, this.state.location, this.state.sortBy);
   }
 
+  handleSortByKeyDown(sortByOption, event) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.handleSortByChange(sortByOption);
+    }
+  }
+
   renderSortByOptions() {
     return Object.keys(this.sortByOptions).map(sortByOption => {
       let sortByOptionValue = this.sortByOptions[sortByOption];
       let sortByOptionStyle = this.getSortByClass(sortByOptionValue);
-      return <li key={sortByOptionValue} className={sortByOptionStyle} role="button" tabIndex={0} onClick={this.handleSortByChange.bind(this, sortByOptionValue)} onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && this.handleSortByChange(sortByOptionValue)}>{sortByOption}</li>;
+      return (
+        <li
+          key={sortByOptionValue}
+          className={sortByOptionStyle}
+          role="button"
+          tabIndex={0}
+          onClick={this.handleSortByChange.bind(this, sortByOptionValue)}
+          onKeyDown={this.handleSortByKeyDown.bind(this, sortByOptionValue)}
+        >
+          {sortByOption}
+        </li>
+      );
     });
   };
     render() {
