@@ -70,9 +70,9 @@ it('renders two input fields (search term and location)', () => {
   ReactDOM.unmountComponentAtNode(div);
 });
 
-it('renders a submit/search element', () => {
+it('renders a submit button inside .SearchBar-submit', () => {
   const div = renderSearchBar();
-  expect(div.querySelector('.SearchBar-submit')).not.toBeNull();
+  expect(div.querySelector('.SearchBar-submit button')).not.toBeNull();
   ReactDOM.unmountComponentAtNode(div);
 });
 
@@ -84,7 +84,7 @@ it('calls searchYelp with term, location, and default sortBy when search is subm
   Simulate.change(inputs[0], { target: { value: 'pizza' } });
   Simulate.change(inputs[1], { target: { value: 'New York' } });
 
-  const submitButton = div.querySelector('.SearchBar-submit');
+  const submitButton = div.querySelector('.SearchBar-submit button');
   Simulate.click(submitButton);
 
   expect(mockSearchYelp).toHaveBeenCalledTimes(1);
@@ -104,7 +104,7 @@ it('calls searchYelp with the selected sortBy option', () => {
   Simulate.change(inputs[0], { target: { value: 'burgers' } });
   Simulate.change(inputs[1], { target: { value: 'Chicago' } });
 
-  const submitButton = div.querySelector('.SearchBar-submit');
+  const submitButton = div.querySelector('.SearchBar-submit button');
   Simulate.click(submitButton);
 
   expect(mockSearchYelp).toHaveBeenCalledWith('burgers', 'Chicago', 'rating');
