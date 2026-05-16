@@ -12,6 +12,7 @@ class SearchBar extends React.Component{
     this.handleTermChange = this.handleTermChange.bind(this);
     this.handleLocationChange = this.handleLocationChange.bind(this);
     this.handleSortByChange = this.handleSortByChange.bind(this);
+    this.handleSortByKeyDown = this.handleSortByKeyDown.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
 
     this.sortByOptions = {
@@ -49,15 +50,32 @@ class SearchBar extends React.Component{
   }
 
   handleSearch(event){
-    this.props.searchYelp(this.state.term, this.state.location, this.state.sortBy);
     event.preventDefault();
+    this.props.searchYelp(this.state.term, this.state.location, this.state.sortBy);
+  }
+
+  handleSortByKeyDown(sortByOption, event) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.handleSortByChange(sortByOption);
+    }
   }
 
   renderSortByOptions() {
     return Object.keys(this.sortByOptions).map(sortByOption => {
       let sortByOptionValue = this.sortByOptions[sortByOption];
       let sortByOptionStyle = this.getSortByClass(sortByOptionValue);
-      return <li key={sortByOptionValue} className = {sortByOptionStyle} onClick = {this.handleSortByChange.bind(this, sortByOptionValue)}>{sortByOption} </li>;
+      return (
+        <li
+          key={sortByOptionValue}
+          className={sortByOptionStyle}
+          role="button"
+          tabIndex={0}
+          onClick={this.handleSortByChange.bind(this, sortByOptionValue)}
+          onKeyDown={this.handleSortByKeyDown.bind(this, sortByOptionValue)}
+        >
+          {sortByOption}
+        </li>
+      );
     });
   };
     render() {
@@ -72,8 +90,8 @@ class SearchBar extends React.Component{
     <input placeholder="Search Businesses" onChange = {this.handleTermChange}/>
     <input placeholder="Where?" onChange = {this.handleLocationChange}/>
   </div>
-  <div className="SearchBar-submit" onClick = {this.handleSearch}>
-    <a>Lets Go</a>
+  <div className="SearchBar-submit">
+    <button type="button" onClick={this.handleSearch}>Let's Go</button>
   </div>
 </div>
 );

@@ -67,6 +67,14 @@ it('displays the business rating with "stars" label', () => {
   ReactDOM.unmountComponentAtNode(div);
 });
 
+it('displays the review count', () => {
+  const div = renderBusiness();
+  const reviewParagraph = div.querySelector('.Business-reviews p');
+  expect(reviewParagraph.textContent).toBe(`${testBusiness.reviewCount} reviews`);
+  ReactDOM.unmountComponentAtNode(div);
+});
+
+
 it('renders the business image with the correct src', () => {
   const div = renderBusiness();
   const img = div.querySelector('.image-container img');
